@@ -1,0 +1,12 @@
+2024-10-03 17:09:12.175728-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PROMISSORIAS" not found (this database is empty); SQL statement:
+SELECT * FROM promissorias [42104-224]
+2024-10-03 18:18:00.381362-03:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PROMISSORIAS" not found (this database is empty); SQL statement:
+INSERT INTO promissorias (nome, endereco, cpf, telefone, data_compra, data_pagamento, valor_total) VALUES (?, ?, ?, ?, ?, ?, ?) [42104-224]
+2024-10-03 18:28:03.538492-03:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PROMISSORIAS" not found; SQL statement:
+INSERT INTO promissorias (nome, endereco, cpf, telefone, data_compra, data_pagamento, valor_total) VALUES (?, ?, ?, ?, ?, ?, ?) [42102-224]
+2024-10-03 18:28:06.190413-03:00 jdbc[5]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PROMISSORIAS" not found; SQL statement:
+SELECT * FROM promissorias [42102-224]

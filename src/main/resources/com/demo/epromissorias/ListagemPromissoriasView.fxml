@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.epromissorias.controllers.ListagemPromissoriasController" spacing="20" alignment="center">
+    <padding>
+        <Insets top="100" right="100" bottom="100" left="100"/>
+    </padding>
+
+
+    <HBox spacing="5"> <!-- Usando HBox para agrupar o rótulo e o campo de pesquisa -->
+        <Label text="Pesquisar por Nome:"/>
+        <TextField fx:id="searchField" />
+        <Button text="Pesquisar" onAction="#atualizarLista"/>
+
+    </HBox>
+    <ListView fx:id="listView" prefHeight="300"/> <!-- ListView diretamente no VBox -->
+
+
+</VBox>

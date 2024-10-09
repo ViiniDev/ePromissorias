@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.demo.epromissorias.controllers.DetalhesPromissoriasController" spacing="20" alignment="center">
+    <VBox spacing="10" alignment="center">
+        <padding>
+            <Insets top="10" right="5" bottom="10" left="5"/>
+        </padding>
+
+        <!-- Título da tela -->
+        <Label text="Detalhes da Promissória" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <!-- Campos de dados da promissória -->
+        <HBox spacing="5">
+            <Label text="Nome:"/>
+            <TextField fx:id="nomeField" prefWidth="250"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="Endereço:"/>
+            <TextField fx:id="enderecoField" prefWidth="250"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="CPF:"/>
+            <TextField fx:id="cpfField" prefWidth="250"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="Telefone:"/>
+            <TextField fx:id="telefoneField" prefWidth="250"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="Data da Compra:"/>
+            <TextField fx:id="dataCompraField" editable="false" prefWidth="250"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="Data de Pagamento:"/>
+            <TextField fx:id="dataPagamentoField" editable="false" prefWidth="250"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="Valor Total" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <TextField fx:id="valorTotalField" GridPane.rowIndex="6" GridPane.columnIndex="1" editable="false"/>
+            <Label text="Adiantamento:"/>
+            <TextField fx:id="adiantamentoField" prefWidth="100"/>
+
+            <Button fx:id="adiantarButton" text="Adicionar" onAction="#adiantarValor"/>
+        </HBox>
+        <HBox spacing="5">
+            <Label text="Valor a Pagar:"/>
+            <TextField fx:id="valorAPagarField" editable="false" prefWidth="100"/>
+        </HBox>
+        <HBox spacing="10">
+            <Button text="Alterar Promissoria" onAction="#alterarPromissoria"/>
+            <Button text="Excluir Promissoria" onAction="#excluirPromissoria"/>
+        </HBox>
+    </VBox>
+
+    <!-- Seção contendo as tabelas -->
+    <VBox spacing="10" alignment="center">
+        <!-- Tabela de Adiantamentos -->
+        <Label text="Adiantamentos Recentes:"/>
+        <ScrollPane prefHeight="150" prefWidth="300" fitToWidth="true">
+            <TableView fx:id="adiantamentosTable" prefHeight="150" prefWidth="300">
+                <columns>
+                    <TableColumn fx:id="valorAdiantamentoColumn" text="Valor do Adiantamento" prefWidth="140"/>
+                    <TableColumn fx:id="dataAdiantamentoColumn" text="Data do Adiantamento" prefWidth="140"/>
+                </columns>
+            </TableView>
+        </ScrollPane>
+        <Button text="Deletar Adiantametos" onAction="#handleDeleteAllAdiantamentos" style="-fx-background-color: red; -fx-text-fill: white;"/>
+
+        <!-- Tabela de Compras -->
+        <Label text="Compras Recentes:"/>
+        <ScrollPane prefHeight="150" prefWidth="300" fitToWidth="true">
+            <TableView fx:id="comprasTable" prefHeight="150" prefWidth="300">
+                <columns>
+                    <TableColumn fx:id="valorCompraColumn" text="Valor da Compra" prefWidth="140"/>
+                    <TableColumn fx:id="dataCompraColumn" text="Data da Compra" prefWidth="140"/>
+                </columns>
+            </TableView>
+        </ScrollPane>
+        <HBox spacing="10">
+            <Button text="Adicionar Compra" onAction="#adicionarCompra"/>
+            <Button text="Deletar Compra" onAction="#deletarCompra"/>
+            <Button text="Deletar Todas as Compras" onAction="#handleDeleteAllCompras" style="-fx-background-color: red; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</HBox>
