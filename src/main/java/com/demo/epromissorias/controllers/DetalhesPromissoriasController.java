@@ -267,13 +267,29 @@ public class DetalhesPromissoriasController {
     @FXML
     private void excluirPromissoria() {
         if (promissoria != null) {
-            promissoriaDAO.deletePromissoria(promissoria.getId());
-            showAlert("Sucesso", "Promissória excluída com sucesso!");
-            voltarParaListagemPromissorias();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmar Exclusão");
+            alert.setHeaderText("Excluir Promissória");
+            alert.setContentText("Tem certeza de que deseja excluir esta promissória?");
+
+            ButtonType botaoSim = new ButtonType("Sim");
+            ButtonType botaoNao = new ButtonType("Não", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(botaoSim, botaoNao);
+
+            // Espera pelo resultado da interação do usuário
+            alert.showAndWait().ifPresent(tipoResposta -> {
+                if (tipoResposta == botaoSim) {
+                    promissoriaDAO.deletePromissoria(promissoria.getId());
+                    showAlert("Sucesso", "Promissória excluída com sucesso!");
+                    voltarParaListagemPromissorias();
+                }
+            });
         } else {
             showAlert("Erro", "Promissória não encontrada.");
         }
     }
+
 
     @FXML
     private void deletarCompra() {
