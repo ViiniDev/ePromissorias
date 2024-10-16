@@ -66,7 +66,7 @@ public class DetalhesPromissoriasController {
     private Promissoria promissoria;
 
     private ObservableList<Compra> comprasList = FXCollections.observableArrayList();
-
+    private ObservableList<Adiantamento> adiantamentosList = FXCollections.observableArrayList();
     public DetalhesPromissoriasController() {
         this.promissoriaDAO = new PromissoriaDAO();
     }
@@ -76,9 +76,9 @@ public class DetalhesPromissoriasController {
         valorCompraColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getValor()).asObject());
         dataCompraColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getData().toString()));
         atualizarValorTotal();
-
         valorAdiantamentoColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getValor()).asObject());
         dataAdiantamentoColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getData()));
+
         // Adicionando listener para a seleção de compras
         comprasTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Compra>() {
             @Override
@@ -164,11 +164,13 @@ public class DetalhesPromissoriasController {
 
     private void atualizarTabelaAdiantamentos() throws SQLException {
         List<Adiantamento> adiantamentos = promissoriaDAO.getAdiantamentosByPromissoriaId(promissoria.getId());
-        // Atualize a tabela com os dados
-        adiantamentosTable.getItems().setAll(adiantamentos);
+        adiantamentosList.clear();
+        adiantamentosList.addAll(adiantamentos);
+        adiantamentosTable.setItems(adiantamentosList);
+        atualizarValorAPagar();
     }
 
-    private void atualizarValorAPagar() throws SQLException {
+    private double atualizarValorAPagar() throws SQLException {
 
         // Soma o valor total das compras
         double totalCompras = comprasList.stream()
@@ -176,13 +178,16 @@ public class DetalhesPromissoriasController {
                 .sum();
 
         // Calcula o total de adiantamentos da promissória
-        double totalAdiantamentos = promissoriaDAO.calcularTotalAdiantamentos(promissoria.getId());
+        double totalAdiantamentos = adiantamentosList.stream()
+                .mapToDouble((Adiantamento::getValor))
+                .sum();
 
         // Calcula o valor a pagar
         double valorAPagar = totalCompras - totalAdiantamentos;
 
         // Aqui você deve ter um campo de texto para mostrar o valor a pagar
         valorAPagarField.setText(String.format("%.2f", valorAPagar));
+    return valorAPagar;
     }
 
 
@@ -284,6 +289,7 @@ public class DetalhesPromissoriasController {
                 // Alerta de sucesso
                 showAlert("Sucesso", "Compra deletada com sucesso!");
                 atualizarValorTotal();
+                atualizarValorAPagar();
             } catch (Exception e) {
                 // Alerta de erro
                 showAlert("Erro", "Erro inesperado ao deletar a compra.");
