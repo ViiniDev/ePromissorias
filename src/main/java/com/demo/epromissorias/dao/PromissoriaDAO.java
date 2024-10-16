@@ -174,6 +174,25 @@ public class PromissoriaDAO {
         }
         return compras;
     }
+    public List<Adiantamento> getAdiantamentosByPromissoriaId(int promissoriaId) {
+        List<Adiantamento> adiantamentos = new ArrayList<>();
+        String sql = "SELECT id, valor, data FROM adiantamento WHERE promissoria_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, promissoriaId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                double valor = rs.getDouble("valor");
+                LocalDate data = rs.getDate("data").toLocalDate(); // Use "data_compra" se for o nome correto da coluna
+                adiantamentos.add(new Adiantamento(id, valor, data)); // Adicionando a compra com ID, valor e data
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return adiantamentos;
+    }
     public void addAdiantamento(Adiantamento adiantamento, int promissoriaId) throws SQLException {
         String sql = "INSERT INTO adiantamento (valor, data, promissoria_id) VALUES (?, ?, ?)";
         try (Connection conn = getConnection();
@@ -212,37 +231,8 @@ public class PromissoriaDAO {
     }
 
 
-    public List<Adiantamento> getAdiantamentosByPromissoriaId(int promissoriaId) throws SQLException {
-        List<Adiantamento> adiantamentos = new ArrayList<>();
-        String sql = "SELECT id, valor, data FROM adiantamento WHERE promissoria_id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, promissoriaId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Adiantamento adiantamento = new Adiantamento(
-                        rs.getInt("id"),
-                        rs.getDouble("valor"),
-                        rs.getDate("data").toLocalDate());
-                adiantamentos.add(adiantamento);
-            }
-        }
-        return adiantamentos;
-    }
 
-    public double calcularTotalAdiantamentos(int promissoriaId) throws SQLException {
-        double total = 0.0;
-        String sql = "SELECT SUM(valor) AS total FROM adiantamento WHERE promissoria_id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, promissoriaId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                total = rs.getDouble("total");
-            }
-        }
-        return total;
-    }
+
 
     public boolean compraExists(int compraId) {
         String sql = "SELECT COUNT(*) FROM compras WHERE id = ?";
