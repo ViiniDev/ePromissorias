@@ -1,66 +1,91 @@
-# Sistema de Gerenciamento de Promissórias
+# ePromissórias
 
-Este projeto é um sistema de gerenciamento de promissórias desenvolvido em JavaFX e PostgreSQL. O sistema permite o cadastro, visualização e gerenciamento de promissórias, incluindo funcionalidades de adicionar compras, registrar adiantamentos, e calcular automaticamente o valor total e o valor a pagar.
+Sistema desktop desenvolvido em JavaFX para gerenciamento de promissórias. A aplicação permite cadastrar clientes, registrar compras, controlar adiantamentos e acompanhar o valor total e o saldo a pagar de cada promissória.
 
-## Funcionalidades Principais
+## Funcionalidades
 
-### 1. **Tela de Login**
-   - O usuário deve inserir as credenciais corretas para acessar o sistema.
-   - Caminho para a imagem da tela: `Telas/TelaLogin.png`
+- Login de acesso ao sistema.
+- Cadastro de promissórias.
+- Listagem e pesquisa por cliente.
+- Visualização detalhada de cada promissória.
+- Registro de novas compras.
+- Registro e limpeza de adiantamentos.
+- Remoção de compras e promissórias.
+- Cálculo automático do valor total e do valor pendente.
 
-### 2. **Tela Home**
-   - Após o login bem-sucedido, o usuário será redirecionado para a tela principal (Home).
-   - Opções disponíveis:
-     - **Cadastrar Promissória**: permite registrar uma nova promissória com as informações do cliente e da compra.
-     - **Visualizar Promissórias**: permite listar todas as promissórias cadastradas, com uma opção de pesquisa por nome do cliente.
-     - **Sair**: encerra a sessão e retorna à tela de login.
-   - Caminho para a imagem da tela: `Telas/TelaHome.png`
+## Telas
 
-### 3. **Tela de Cadastro de Promissória**
-   - Nesta tela, o usuário pode cadastrar uma nova promissória.
-   - Informações necessárias:
-     - Nome do cliente
-     - CPF ou RG
-     - Valor da compra inicial
-     - Data da compra
-   - Caminho para a imagem da tela: `Telas/TelaCadastroPromissoria.png`
+As imagens de referência estão na pasta `Telas`:
 
-### 4. **Tela de Visualização de Promissórias**
-   - Exibe uma lista de todas as promissórias registradas no sistema.
-   - Inclui um campo de pesquisa para facilitar a localização de uma promissória específica por nome do cliente.
-   - Caminho para a imagem da tela: `Telas/TelaVisualizar-Pesquisar.png`
+- `TelaLogin.png`
+- `TelaHome.png`
+- `CadastroPromissoria.png`
+- `TelaLista-Pesquisa.png`
+- `TelaDetalhes.png`
 
-### 5. **Tela de Detalhes da Promissória**
-   - Ao clicar em uma promissória na tela de visualização, o usuário é redirecionado para a tela de detalhes, que mostra todas as informações associadas àquela promissória.
-   - Funcionalidades:
-     - **Adicionar Compra**: permite adicionar uma nova compra à promissória existente.
-     - **Adicionar Adiantamento**: disponível somente se houver compras registradas. Permite registrar um adiantamento para abatimento no valor total.
-     - **Apagar Compra**: remove uma compra específica da promissória.
-     - **Limpar Histórico de Adiantamentos**: apaga todos os adiantamentos registrados, voltando o valor a pagar ao total das compras.
-     - **Apagar Promissória**: remove completamente a promissória do sistema.
-   - O **valor total** é calculado pela soma de todas as compras associadas à promissória.
-   - O **valor a pagar** é calculado pela subtração dos adiantamentos feitos do valor total.
-   - Caminho para a imagem da tela: `Telas/TelaDetalhes.png`
+## Tecnologias
 
-## Configuração do Banco de Dados
+- Java 17
+- JavaFX
+- Maven
+- PostgreSQL
+- JDBC
+- Spring Data JPA
 
-O sistema utiliza PostgreSQL como banco de dados relacional. Certifique-se de que o PostgreSQL esteja instalado e configurado corretamente antes de executar o sistema.
+## Estrutura do Projeto
 
-### Requisitos:
-- PostgreSQL 17 ou superior
-- Java 17 ou superior
-- JavaFX jdk
-- Maven (para gerenciamento de dependências)
+```text
+src/main/java/com/demo/epromissorias
+├── connection
+│   └── DatabaseConnection.java
+├── controllers
+├── dao
+├── entities
+└── MainApp.java
+```
 
-### Configuração do Banco:
-1. Crie um banco de dados chamado `promissoriasdb`.
-2. Tabelas `promissoria`, `compras` e `adiantamento` sendos essas duas relacionadas a promissoria
-3. Atualize o arquivo `application.properties` com as credenciais corretas do banco de dados.
+## Configuração do Banco
 
-## Tecnologias Utilizadas
+Crie um banco PostgreSQL chamado `ePromissorias`:
 
-- **JavaFX**: Interface gráfica para construção das telas.
-- **PostgreSQL**: Banco de dados relacional.
-- **Maven**: Gerenciador de dependências e construção do projeto.
-- **Spring Boot**: Framework utilizado para a camada de serviço e integração com o banco de dados.
+```sql
+CREATE DATABASE "ePromissorias";
+```
 
+Configure as credenciais por variáveis de ambiente:
+
+```bash
+EPROMISSORIAS_DB_URL=jdbc:postgresql://localhost:5432/ePromissorias
+EPROMISSORIAS_DB_USER=postgres
+EPROMISSORIAS_DB_PASSWORD=sua_senha
+```
+
+O projeto também possui valores padrão para ambiente local, mas a senha deve ser informada por variável de ambiente.
+
+## Como Executar
+
+```bash
+./mvnw clean package
+java -jar target/ePromissorias-1.0-SNAPSHOT.jar
+```
+
+No Windows:
+
+```bash
+mvnw.cmd clean package
+java -jar target/ePromissorias-1.0-SNAPSHOT.jar
+```
+
+## Observações
+
+- O projeto combina interface JavaFX com persistência em PostgreSQL.
+- A autenticação atual é simples e voltada para estudo.
+- Arquivos gerados por IDE e builds locais foram removidos do versionamento para manter o repositório mais limpo.
+
+## Melhorias Futuras
+
+- Criar tela administrativa para usuários.
+- Substituir login fixo por autenticação persistida no banco.
+- Adicionar scripts SQL de criação das tabelas.
+- Adicionar testes para regras de cálculo.
+- Criar empacotamento distribuível da aplicação desktop.
